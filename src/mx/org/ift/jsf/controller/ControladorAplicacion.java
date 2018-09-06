@@ -1,5 +1,6 @@
 package mx.org.ift.jsf.controller;
 
+import mx.org.ift.aplicacion.AplicacionSimple;
 import mx.org.ift.jsf.bean.AplicacionBean;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -17,6 +18,7 @@ public class ControladorAplicacion extends Persistente {
 	 */
 	private static final long serialVersionUID = 1L;
 	private AplicacionBean aplicacionBean;
+	private String cargaConfig = "";
 
 	public ControladorAplicacion(){
 
@@ -52,5 +54,22 @@ public class ControladorAplicacion extends Persistente {
 
 	public AplicacionBean getAplicacionBean() {
 		return aplicacionBean;
+	}
+	public String getCargaConfig() {
+		try {
+			AplicacionSimple apli = aplicacionBean.getAplicacion();
+			if (apli == null) {
+				cargaConfig = "Error: No se identifico el tipo de aplicacion " + aplicacionBean.getTipoAplicacion();
+			}
+			else {
+				aplicacionBean.getAplicacion().cargaConfig();
+				cargaConfig = "OK";
+			}
+			
+		}catch(Exception e) {
+			cargaConfig = "Error: " + e.getMessage();
+			e.printStackTrace();
+		}
+		return cargaConfig;
 	}
 }

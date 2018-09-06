@@ -45,7 +45,7 @@ public class AplicacionSegura extends AplicacionSimple {
 		this.idSesion = idSesion;
 	}
 
-	public AplicacionSegura(String nomAplicacion, String nomArchConfig) {
+	public AplicacionSegura(String nomArchConfig) {
 		super(nomArchConfig);
 		// TODO Auto-generated constructor stub
 	}

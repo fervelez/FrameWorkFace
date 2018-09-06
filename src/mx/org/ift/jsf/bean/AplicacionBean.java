@@ -1,4 +1,6 @@
 package mx.org.ift.jsf.bean;
+import mx.org.ift.aplicacion.AplicacionBD;
+import mx.org.ift.aplicacion.AplicacionSegura;
 import mx.org.ift.aplicacion.AplicacionSimple;
 
 /**
@@ -11,6 +13,16 @@ public class AplicacionBean {
 
 	private String nomArchConfig;
 	private AplicacionSimple aplicacion;
+	private String tipoAplicacion = "";
+	
+	
+	public String getTipoAplicacion() {
+		return tipoAplicacion;
+	}
+
+	public void setTipoAplicacion(String tipoAplicacion) {
+		this.tipoAplicacion = tipoAplicacion;
+	}
 
 	public AplicacionBean(){
 
@@ -26,14 +38,6 @@ public class AplicacionBean {
 	 */
 	public void setNomArchConfig(String nomArchivo){
 		this.nomArchConfig = nomArchivo;
-		/*
-		try {
-			aplicacion = new AplicacionSimple(nomArchivo);
-			aplicacion.cargaConfig();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		*/
 	}
 
 	public String getNomArchConfig(){
@@ -45,6 +49,14 @@ public class AplicacionBean {
 	}
 	
 	public AplicacionSimple getAplicacion() {
+		if (tipoAplicacion.equals("DB"))
+			aplicacion = new AplicacionBD(nomArchConfig);
+		else if (tipoAplicacion.equals("Segura"))
+			aplicacion = new AplicacionSegura(nomArchConfig);
+		else if (tipoAplicacion.equals("Simple"))
+			aplicacion = new AplicacionSimple(nomArchConfig);
+		else
+			aplicacion = null;
 		return aplicacion;
 	}
 

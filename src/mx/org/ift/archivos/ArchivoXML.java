@@ -1,7 +1,10 @@
 package mx.org.ift.archivos;
 
 import java.io.File;
+//import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+
 import javax.xml.parsers.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -29,7 +32,12 @@ public class ArchivoXML {
                 .newInstance();
 		domFactory.setNamespaceAware(true);
 		DocumentBuilder builder = domFactory.newDocumentBuilder();
-		doc = builder.parse(new File(nomArchivo));
+		//doc = builder.parse(new File(nomArchivo));
+		
+        ClassLoader ccl = Thread.currentThread().getContextClassLoader();
+        URL resource = ccl.getResource(nomArchivo);
+        
+        doc = builder.parse(new File(resource.getPath().substring(1)));
 	}
 	
 	public String getNomArchivo() {
@@ -95,7 +103,7 @@ public class ArchivoXML {
 	 * @param Valor
 	 */
 	public void setValor(String ruta, String valor){
-String[] cadenas = ruta.split("/");
+		String[] cadenas = ruta.split("/");
 		
 		if (cadenas.length >= 1) {
 			String nuevaRuta = "";

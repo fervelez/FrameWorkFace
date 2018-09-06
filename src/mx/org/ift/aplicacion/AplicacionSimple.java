@@ -1,5 +1,12 @@
 package mx.org.ift.aplicacion;
 import mx.org.ift.config.ConfigXML;
+
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import mx.org.ift.archivos.Bitacora;
 import mx.org.ift.jsf.controller.Persistente;
 
@@ -21,6 +28,7 @@ public class AplicacionSimple extends Persistente {
 	private String url;
 
 	private ConfigXML config;
+	private String nomArchConfig;
 	private Bitacora bitacora;
 
 	public void finalize() throws Throwable {
@@ -32,11 +40,7 @@ public class AplicacionSimple extends Persistente {
 	}
 	
 	public void setNomArchConfig(String nomArchConfig) {
-		try {
-			config = new ConfigXML(nomArchConfig);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+		this.nomArchConfig = nomArchConfig;
 	}
 	
 	public void setTipoAplicacion(String tipoAplicacion) {
@@ -64,12 +68,14 @@ public class AplicacionSimple extends Persistente {
 		setNomArchConfig(nomArchConfig);
 	}
 	
-	public void cargaConfig() {
-		setTipoAplicacion(config.getValor("General", "TipoAplicacion"));
-		setNomAplicacion(config.getValor("General", "nomAplicacion"));
-		setVersion(config.getValor("General", "nomAplicacion"));
-		setURL(config.getValor("General", "nomAplicacion"));
-		setEntorno(config.getValor("General", "nomAplicacion"));
+	public void cargaConfig() throws ParserConfigurationException, SAXException, IOException {
+		if (config == null)
+			config = new ConfigXML(nomArchConfig);
+		setTipoAplicacion(config.getValor("aplicacion/General", "TipoAplicacion"));
+		setNomAplicacion(config.getValor("aplicacion/General", "nomAplicacion"));
+		setVersion(config.getValor("aplicacion/General", "nomAplicacion"));
+		setURL(config.getValor("aplicacion/General", "nomAplicacion"));
+		setEntorno(config.getValor("aplicacion/General", "nomAplicacion"));
 	}
 
 	public String getTipoAplicacion() {

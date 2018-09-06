@@ -13,8 +13,8 @@ public class AplicacionBD extends AplicacionSegura {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public AplicacionBD(String nomAplicacion, String nomArchConfig) {
-		super(nomAplicacion, nomArchConfig);
+	public AplicacionBD(String nomArchConfig) {
+		super(nomArchConfig);
 		// TODO Auto-generated constructor stub
 	}
 
