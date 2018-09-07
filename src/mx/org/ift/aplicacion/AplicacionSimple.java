@@ -71,11 +71,10 @@ public class AplicacionSimple extends Persistente {
 	public void cargaConfig() throws ParserConfigurationException, SAXException, IOException {
 		if (config == null)
 			config = new ConfigXML(nomArchConfig);
-		setTipoAplicacion(config.getValor("aplicacion/General", "TipoAplicacion"));
 		setNomAplicacion(config.getValor("aplicacion/General", "nomAplicacion"));
-		setVersion(config.getValor("aplicacion/General", "nomAplicacion"));
-		setURL(config.getValor("aplicacion/General", "nomAplicacion"));
-		setEntorno(config.getValor("aplicacion/General", "nomAplicacion"));
+		setVersion(config.getValor("aplicacion/General", "version"));
+		setURL(config.getValor("aplicacion/General", "urlAplicacion"));
+		setEntorno(config.getValor("aplicacion/General", "entorno"));
 	}
 
 	public String getTipoAplicacion() {
@@ -104,6 +103,14 @@ public class AplicacionSimple extends Persistente {
 	
 	public Bitacora getBitacora(){
 		return bitacora;
+	}
+	public void cargaBitacora() throws ParserConfigurationException, SAXException, IOException {
+		if (config == null)
+			config = new ConfigXML(nomArchConfig);
+		String tipoBitacora = config.getValor("aplicacion/Bitacora", "tipoBitacora");
+		String ruta = config.getValor("aplicacion/Bitacora", "rutaBitacora");
+		String habilitado = config.getValor("aplicacion/Bitacora", "habilitado");
+		bitacora = new Bitacora(nomAplicacion, tipoBitacora, ruta, habilitado);
 	}
 
 }

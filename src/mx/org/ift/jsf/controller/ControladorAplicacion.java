@@ -1,6 +1,7 @@
 package mx.org.ift.jsf.controller;
 
 import mx.org.ift.aplicacion.AplicacionSimple;
+import mx.org.ift.archivos.Bitacora;
 import mx.org.ift.jsf.bean.AplicacionBean;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -19,6 +20,7 @@ public class ControladorAplicacion extends Persistente {
 	private static final long serialVersionUID = 1L;
 	private AplicacionBean aplicacionBean;
 	private String cargaConfig = "";
+	private Bitacora bitacora;
 
 	public ControladorAplicacion(){
 
@@ -62,7 +64,8 @@ public class ControladorAplicacion extends Persistente {
 				cargaConfig = "Error: No se identifico el tipo de aplicacion " + aplicacionBean.getTipoAplicacion();
 			}
 			else {
-				aplicacionBean.getAplicacion().cargaConfig();
+				apli.cargaConfig();
+				
 				cargaConfig = "OK";
 			}
 			
@@ -71,5 +74,24 @@ public class ControladorAplicacion extends Persistente {
 			e.printStackTrace();
 		}
 		return cargaConfig;
+	}
+	public String getConfiguracion() {
+		AplicacionSimple apli = aplicacionBean.getAplicacion();
+		return "NomAplicacion: " + apli.getNomAplicacion() + " Versión: " + apli.getVersion() +
+			" url: " + apli.getURL() + " Entorno: " + apli.getEntorno();
+	}
+	public String getCargaBitacora() {
+		try{
+			AplicacionSimple apli = aplicacionBean.getAplicacion();
+			apli.cargaBitacora();
+			bitacora = apli.getBitacora();
+			bitacora.registraEvento("Cargado Bitácora", this.getClass().getName(), 
+					"Iniciando ", "Iniciando la aplicacion", "");
+			return "OK";
+		}catch (Exception e) {
+			e.printStackTrace();
+			return "Error: " + e.getMessage();
+		}
+		
 	}
 }

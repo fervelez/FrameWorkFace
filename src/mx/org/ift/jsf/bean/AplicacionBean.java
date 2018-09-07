@@ -49,6 +49,8 @@ public class AplicacionBean {
 	}
 	
 	public AplicacionSimple getAplicacion() {
+		if (aplicacion != null)
+			return aplicacion;
 		if (tipoAplicacion.equals("DB"))
 			aplicacion = new AplicacionBD(nomArchConfig);
 		else if (tipoAplicacion.equals("Segura"))
